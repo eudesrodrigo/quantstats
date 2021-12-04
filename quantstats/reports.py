@@ -59,8 +59,8 @@ def html(returns, benchmark=None, rf=0., grayscale=False,
          periods_per_year=252, download_filename='quantstats-tearsheet.html',
          figfmt='svg', template_path=None, match_dates=False):
 
-    if output is None and not _utils._in_notebook():
-        raise ValueError("`file` must be specified")
+    # if output is None and not _utils._in_notebook():
+    #     raise ValueError("`file` must be specified")
 
     win_year, win_half_year = _get_trading_periods(periods_per_year)
 
