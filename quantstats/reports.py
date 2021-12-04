@@ -245,7 +245,7 @@ def html(returns, benchmark=None, rf=0., grayscale=False,
     if output is None:
         # _open_html(tpl)
         _download_html(tpl, download_filename)
-        return
+        return tpl
 
     with open(output, 'w', encoding='utf-8') as f:
         f.write(tpl)
@@ -358,7 +358,8 @@ def metrics(returns, benchmark=None, rf=0., display=True,
 
     if isinstance(returns, _pd.DataFrame):
         if len(returns.columns) > 1:
-            raise ValueError("`returns` needs to be a Pandas Series or one column DataFrame. multi colums DataFrame was passed")
+            raise ValueError(
+                "`returns` needs to be a Pandas Series or one column DataFrame. multi colums DataFrame was passed")
         returns = returns[returns.columns[0]]
 
     if prepare_returns:
@@ -399,7 +400,8 @@ def metrics(returns, benchmark=None, rf=0., display=True,
     metrics['Start Period'] = _pd.Series(s_start)
     metrics['End Period'] = _pd.Series(s_end)
     metrics['Risk-Free Rate %'] = _pd.Series(s_rf)
-    metrics['Time in Market %'] = _stats.exposure(df, prepare_returns=False) * pct
+    metrics['Time in Market %'] = _stats.exposure(
+        df, prepare_returns=False) * pct
 
     metrics['~'] = blank
 
@@ -474,11 +476,14 @@ def metrics(returns, benchmark=None, rf=0., display=True,
 
     metrics['Payoff Ratio'] = _stats.payoff_ratio(df, prepare_returns=False)
     metrics['Profit Factor'] = _stats.profit_factor(df, prepare_returns=False)
-    metrics['Common Sense Ratio'] = _stats.common_sense_ratio(df, prepare_returns=False)
+    metrics['Common Sense Ratio'] = _stats.common_sense_ratio(
+        df, prepare_returns=False)
     metrics['CPC Index'] = _stats.cpc_index(df, prepare_returns=False)
     metrics['Tail Ratio'] = _stats.tail_ratio(df, prepare_returns=False)
-    metrics['Outlier Win Ratio'] = _stats.outlier_win_ratio(df, prepare_returns=False)
-    metrics['Outlier Loss Ratio'] = _stats.outlier_loss_ratio(df, prepare_returns=False)
+    metrics['Outlier Win Ratio'] = _stats.outlier_win_ratio(
+        df, prepare_returns=False)
+    metrics['Outlier Loss Ratio'] = _stats.outlier_loss_ratio(
+        df, prepare_returns=False)
 
     # returns
     metrics['~~'] = blank
@@ -520,10 +525,14 @@ def metrics(returns, benchmark=None, rf=0., display=True,
         metrics['~~~'] = blank
         metrics['Best Day %'] = _stats.best(df, prepare_returns=False) * pct
         metrics['Worst Day %'] = _stats.worst(df, prepare_returns=False) * pct
-        metrics['Best Month %'] = _stats.best(df, aggregate='M', prepare_returns=False) * pct
-        metrics['Worst Month %'] = _stats.worst(df, aggregate='M', prepare_returns=False) * pct
-        metrics['Best Year %'] = _stats.best(df, aggregate='A', prepare_returns=False) * pct
-        metrics['Worst Year %'] = _stats.worst(df, aggregate='A', prepare_returns=False) * pct
+        metrics['Best Month %'] = _stats.best(
+            df, aggregate='M', prepare_returns=False) * pct
+        metrics['Worst Month %'] = _stats.worst(
+            df, aggregate='M', prepare_returns=False) * pct
+        metrics['Best Year %'] = _stats.best(
+            df, aggregate='A', prepare_returns=False) * pct
+        metrics['Worst Year %'] = _stats.worst(
+            df, aggregate='A', prepare_returns=False) * pct
 
     # dd
     metrics['~~~~'] = blank
@@ -536,16 +545,23 @@ def metrics(returns, benchmark=None, rf=0., display=True,
     # win rate
     if mode.lower() == 'full':
         metrics['~~~~~'] = blank
-        metrics['Avg. Up Month %'] = _stats.avg_win(df, aggregate='M', prepare_returns=False) * pct
-        metrics['Avg. Down Month %'] = _stats.avg_loss(df, aggregate='M', prepare_returns=False) * pct
-        metrics['Win Days %%'] = _stats.win_rate(df, prepare_returns=False) * pct
-        metrics['Win Month %%'] = _stats.win_rate(df, aggregate='M', prepare_returns=False) * pct
-        metrics['Win Quarter %%'] = _stats.win_rate(df, aggregate='Q', prepare_returns=False) * pct
-        metrics['Win Year %%'] = _stats.win_rate(df, aggregate='A', prepare_returns=False) * pct
+        metrics['Avg. Up Month %'] = _stats.avg_win(
+            df, aggregate='M', prepare_returns=False) * pct
+        metrics['Avg. Down Month %'] = _stats.avg_loss(
+            df, aggregate='M', prepare_returns=False) * pct
+        metrics['Win Days %%'] = _stats.win_rate(
+            df, prepare_returns=False) * pct
+        metrics['Win Month %%'] = _stats.win_rate(
+            df, aggregate='M', prepare_returns=False) * pct
+        metrics['Win Quarter %%'] = _stats.win_rate(
+            df, aggregate='Q', prepare_returns=False) * pct
+        metrics['Win Year %%'] = _stats.win_rate(
+            df, aggregate='A', prepare_returns=False) * pct
 
         if "benchmark" in df:
             metrics['~~~~~~~'] = blank
-            greeks = _stats.greeks(df['returns'], df['benchmark'], win_year, prepare_returns=False)
+            greeks = _stats.greeks(
+                df['returns'], df['benchmark'], win_year, prepare_returns=False)
             metrics['Beta'] = [str(round(greeks['beta'], 2)), '-']
             metrics['Alpha'] = [str(round(greeks['alpha'], 2)), '-']
 
@@ -735,7 +751,8 @@ def _calc_dd(df, display=True, as_pct=False):
 
     dd_stats = _pd.DataFrame(dd_stats).T
     dd_stats['Max Drawdown %'] = dd_stats['Max Drawdown %'].astype(float) * pct
-    dd_stats['Avg. Drawdown %'] = dd_stats['Avg. Drawdown %'].astype(float) * pct
+    dd_stats['Avg. Drawdown %'] = dd_stats['Avg. Drawdown %'].astype(
+        float) * pct
 
     return dd_stats.T
 
